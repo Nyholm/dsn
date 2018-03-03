@@ -19,8 +19,7 @@ matrix:
     fast_finish: true
     include:
         - php: 7.2
-          env: DEPENDENCIES="phpunit/phpunit:^7"
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
+          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" DEPENDENCIES="phpunit/phpunit:^7"
         - php: 5.5
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
 
