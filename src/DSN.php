@@ -166,7 +166,9 @@ final class DSN
         $dsn = str_replace($this->protocol.'://', '', $dsn);
 
         // Parse and remove auth if they exist
-        if (false !== $pos = strrpos($dsn, '@')) {
+        if (false === $pos = strrpos($dsn, '@')) {
+            $this->authentication = ['username'=>null, 'password'=>null];
+        } else {
             $temp = explode(':', str_replace('\@', '@', substr($dsn, 0, $pos)));
             $dsn = substr($dsn, $pos + 1);
 
@@ -175,7 +177,8 @@ final class DSN
                 $auth['username'] = $temp[0];
                 $auth['password'] = $temp[1];
             } else {
-                $auth['password'] = $temp[0];
+                $auth['username'] = $temp[0];
+                $auth['password'] = null;
             }
 
             $this->authentication = $auth;
@@ -217,10 +220,8 @@ final class DSN
 
     /**
      * @param string $params
-     *
-     * @return string
      */
-    protected function parseParameters($params)
+    private function parseParameters($params)
     {
         $parameters = explode('&', $params);
 
@@ -228,7 +229,5 @@ final class DSN
             $kv = explode('=', $parameter, 2);
             $this->parameters[$kv[0]] = isset($kv[1]) ? $kv[1] : null;
         }
-
-        return '';
     }
 }
