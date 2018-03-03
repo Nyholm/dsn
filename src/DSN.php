@@ -10,32 +10,32 @@ namespace Nyholm;
 final class DSN
 {
     /**
-     * @type string
+     * @var string
      */
     private $dsn;
 
     /**
-     * @type string
+     * @var string
      */
     private $protocol;
 
     /**
-     * @type array
+     * @var array
      */
     private $authentication;
 
     /**
-     * @type array
+     * @var array
      */
     private $hosts;
 
     /**
-     * @type int
+     * @var int
      */
     private $database;
 
     /**
-     * @type array
+     * @var array
      */
     private $parameters = [];
 
@@ -158,7 +158,7 @@ final class DSN
     private function parseDsn($dsn)
     {
         $this->parseProtocol($dsn);
-        if ($this->getProtocol() === null) {
+        if (null === $this->getProtocol()) {
             return;
         }
 
@@ -168,10 +168,10 @@ final class DSN
         // Parse and remove auth if they exist
         if (false !== $pos = strrpos($dsn, '@')) {
             $temp = explode(':', str_replace('\@', '@', substr($dsn, 0, $pos)));
-            $dsn  = substr($dsn, $pos + 1);
+            $dsn = substr($dsn, $pos + 1);
 
             $auth = [];
-            if (count($temp) === 2) {
+            if (2 === count($temp)) {
                 $auth['username'] = $temp[0];
                 $auth['password'] = $temp[1];
             } else {
@@ -181,8 +181,8 @@ final class DSN
             $this->authentication = $auth;
         }
 
-        if (strpos($dsn, '?') !== false) {
-            if (strpos($dsn, '/') === false) {
+        if (false !== strpos($dsn, '?')) {
+            if (false === strpos($dsn, '/')) {
                 $dsn = str_replace('?', '/?', $dsn);
             }
         }
@@ -191,8 +191,8 @@ final class DSN
         $this->parseHosts($temp[0]);
 
         if (isset($temp[1])) {
-            $params         = $temp[1];
-            $temp           = explode('?', $params);
+            $params = $temp[1];
+            $temp = explode('?', $params);
             $this->database = empty($temp[0]) ? null : $temp[0];
             if (isset($temp[1])) {
                 $this->parseParameters($temp[1]);
@@ -225,7 +225,7 @@ final class DSN
         $parameters = explode('&', $params);
 
         foreach ($parameters as $parameter) {
-            $kv                       = explode('=', $parameter, 2);
+            $kv = explode('=', $parameter, 2);
             $this->parameters[$kv[0]] = isset($kv[1]) ? $kv[1] : null;
         }
 
