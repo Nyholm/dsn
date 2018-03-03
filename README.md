@@ -1,9 +1,9 @@
 # HTTPlug Bundle
 
-[![Latest Version](https://img.shields.io/github/release/nyholm/dsn.svg?style=flat-square)](https://github.com/nyholm/dsn/releases)
-[![Build Status](https://img.shields.io/travis/nyholm/dsn.svg?style=flat-square)](https://travis-ci.org/nyholm/dsn)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/nyholm/dsn.svg?style=flat-square)](https://scrutinizer-ci.com/g/nyholm/dsn)
-[![Quality Score](https://img.shields.io/scrutinizer/g/nyholm/dsn.svg?style=flat-square)](https://scrutinizer-ci.com/g/nyholm/dsn)
+[![Latest Version](https://img.shields.io/github/release/Nyholm/dsn.svg?style=flat-square)](https://github.com/Nyholm/dsn/releases)
+[![Build Status](https://img.shields.io/travis/Nyholm/dsn.svg?style=flat-square)](https://travis-ci.org/Nyholm/dsn)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Nyholm/dsn.svg?style=flat-square)](https://scrutinizer-ci.com/g/Nyholm/dsn)
+[![Quality Score](https://img.shields.io/scrutinizer/g/Nyholm/dsn.svg?style=flat-square)](https://scrutinizer-ci.com/g/Nyholm/dsn)
 [![Total Downloads](https://img.shields.io/packagist/dt/nyholm/dsn.svg?style=flat-square)](https://packagist.org/packages/nyholm/dsn)
 
 
