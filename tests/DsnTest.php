@@ -19,4 +19,16 @@ class DsnTest extends TestCase
         $this->assertEquals('3306', $dsn->getFirstPort());
         $this->assertEquals('test_db', $dsn->getDatabase());
     }
+    public function testPartlyMissing()
+    {
+        $dsn = new DSN('mysql://127.0.0.1/test_db');
+
+        $this->assertTrue($dsn->isValid());
+        $this->assertEquals('mysql', $dsn->getProtocol());
+        $this->assertEquals('127.0.0.1', $dsn->getFirstHost());
+        $this->assertEquals('test_db', $dsn->getDatabase());
+        $this->assertNull($dsn->getUsername());
+        $this->assertNull($dsn->getPassword());
+        $this->assertNull($dsn->getFirstPort());
+    }
 }

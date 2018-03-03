@@ -18,7 +18,19 @@ composer require nyholm/dsn
 
 ## Usage
 
+The DSN parser is super simple to use. See the following example: 
 
+```php
+$dsn = new DSN('mysql://root:root_pass@127.0.0.1:3306/test_db');
+
+$dsn->isValid();      // true
+$dsn->getProtocol();  // 'mysql'
+$dsn->getUsername();  // 'root'
+$dsn->getPassword();  // 'root_pass'
+$dsn->getFirstHost(); // '127.0.0.1'
+$dsn->getFirstPort(); // 3306
+$dsn->getDatabase();  // 'test_db'
+```
 
 ## Testing
 
