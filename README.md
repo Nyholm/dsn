@@ -1,4 +1,4 @@
-# HTTPlug Bundle
+# DSN parser
 
 [![Latest Version](https://img.shields.io/github/release/Nyholm/dsn.svg?style=flat-square)](https://github.com/Nyholm/dsn/releases)
 [![Build Status](https://img.shields.io/travis/Nyholm/dsn.svg?style=flat-square)](https://travis-ci.org/Nyholm/dsn)
