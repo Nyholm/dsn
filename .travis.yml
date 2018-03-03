@@ -20,6 +20,7 @@ matrix:
     include:
         - php: 7.2
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
+          env: DEPENDENCIES="phpunit/phpunit:^7"
         - php: 5.5
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest"
 
@@ -30,9 +31,11 @@ matrix:
         - php: 7.1
         - php: 7.2
           env: COVERAGE=true TEST_COMMAND="composer test-ci"
+          env: DEPENDENCIES="phpunit/phpunit:^7"
 
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
+    - if ! [ -v "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
 
 install:
     # To be removed when this issue will be resolved: https://github.com/composer/composer/issues/5355
