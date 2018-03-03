@@ -1,0 +1,34 @@
+{
+    "name": "nyholm/dsn",
+    "description": "Parse your DSN",
+    "type": "library",
+    "keywords": ["dsn", "parser", "dsn parser", "database"],
+    "homepage": "http://tnyholm.se",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tobias Nyholm",
+            "email": "tobias.nyholm@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^5.5 || ^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8.36 || ^6.5.7 || ^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nyholm\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-ci": "vendor/bin/phpunit --coverage-text --coverage-clover=build/coverage.xml"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
