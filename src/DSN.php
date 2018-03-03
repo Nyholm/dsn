@@ -167,7 +167,7 @@ final class DSN
 
         // Parse and remove auth if they exist
         if (false === $pos = strrpos($dsn, '@')) {
-            $this->authentication = ['username'=>null, 'password'=>null];
+            $this->authentication = ['username' => null, 'password' => null];
         } else {
             $temp = explode(':', str_replace('\@', '@', substr($dsn, 0, $pos)));
             $dsn = substr($dsn, $pos + 1);

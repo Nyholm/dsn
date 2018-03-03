@@ -51,6 +51,7 @@ class DsnTest extends TestCase
         $this->assertArrayHasKey('foo', $parameters);
         $this->assertEquals('bar', $parameters['foo']);
     }
+
     public function testAuthentication()
     {
         $dsn = new DSN('mysql://root:root_pass@127.0.0.1:3306/test_db');
