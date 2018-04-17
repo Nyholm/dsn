@@ -17,6 +17,8 @@ branches:
 
 matrix:
     fast_finish: true
+    allow_failures:
+        - php: nightly
     include:
         - php: 7.2
           env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" DEPENDENCIES="phpunit/phpunit:^7"
@@ -30,6 +32,7 @@ matrix:
         - php: 7.1
         - php: 7.2
           env: COVERAGE=true TEST_COMMAND="composer test-ci"
+        - php: nightly
 
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
