@@ -30,6 +30,8 @@ matrix:
         - php: 7.1
         - php: 7.2
           env: COVERAGE=true TEST_COMMAND="composer test-ci"
+        - php: 7.3
+        - php: nightly
 
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
