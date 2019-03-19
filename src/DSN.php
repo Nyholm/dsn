@@ -30,7 +30,7 @@ final class DSN
     private $hosts;
 
     /**
-     * @var int
+     * @var string
      */
     private $database;
 
@@ -67,7 +67,7 @@ final class DSN
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
     public function getDatabase()
     {
