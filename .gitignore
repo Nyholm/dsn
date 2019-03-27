@@ -1,3 +1,7 @@
+.settings
+.buildpath
+.project
 /composer.lock
 /phpunit.xml
 /vendor/
+/test.php

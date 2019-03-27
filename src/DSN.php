@@ -33,6 +33,16 @@ final class DSN
      * @var string
      */
     private $database;
+    
+    /**
+     * @var string
+     */
+    private $table;
+    
+    /**
+     * @var string
+     */
+    private $fragment;
 
     /**
      * @var array
@@ -72,6 +82,22 @@ final class DSN
     public function getDatabase()
     {
         return $this->database;
+    }
+    
+    /**
+     * @return string|null
+     */
+    public function getTable()
+    {
+        return $this->table;
+    }
+    
+    /**
+     * @return string|null
+     */
+    public function getFragment()
+    {
+        return $this->fragment;
     }
 
     /**
@@ -140,94 +166,87 @@ final class DSN
         return true;
     }
 
-    private function parseProtocol($dsn)
-    {
-        $regex = '/^(\w+):\/\//i';
-
-        preg_match($regex, $dsn, $matches);
-
-        if (isset($matches[1])) {
-            $protocol = $matches[1];
-            $this->protocol = $protocol;
-        }
-    }
-
     /**
      * @param string $dsn
      */
     private function parseDsn($dsn)
     {
-        $this->parseProtocol($dsn);
+        // Parse protocol and auth
+        $matches = [];
+        $regex = '/^(?P<_protocol>(?P<protocol>[\w\\\\]+):\/\/)(?P<_username>(?P<username>.*?)(?P<_password>:(?P<password>.*?))?@)?/i';
+        
+        preg_match($regex, $dsn, $matches);
+        
+        if ( empty($matches['protocol']) ) {
+            return;
+        }
+        
+        $this->protocol = $matches['protocol'];
+        
+        $this->authentication = [
+            'username'  => isset($matches['username']) ? $matches['username'] : null,
+            'password'  => isset($matches['password']) ? $matches['password'] : null,
+        ];
+        
+        
         if (null === $this->getProtocol()) {
             return;
         }
 
-        // Remove the protocol
-        $dsn = str_replace($this->protocol.'://', '', $dsn);
-
-        // Parse and remove auth if they exist
-        if (false === $pos = strrpos($dsn, '@')) {
-            $this->authentication = ['username' => null, 'password' => null];
-        } else {
-            $temp = explode(':', str_replace('\@', '@', substr($dsn, 0, $pos)));
-            $dsn = substr($dsn, $pos + 1);
-
-            $auth = [];
-            if (2 === count($temp)) {
-                $auth['username'] = $temp[0];
-                $auth['password'] = $temp[1];
-            } else {
-                $auth['username'] = $temp[0];
-                $auth['password'] = null;
-            }
-
-            $this->authentication = $auth;
+        // Remove the protocol and auth
+        $dsn = str_replace($matches[0], '', $dsn);
+        
+        // Parse path (database/table), parameters, and fragment
+        $matches = [];
+        $regex = '/(?P<_path>(?P<path>\/[^?#]*))?(?P<_query>\?(?P<query>[^#]*))?(?P<_fragment>\#(?P<fragment>.*))?$/i';
+        
+        preg_match($regex, $dsn, $matches);
+        
+        if ( !empty($matches['path']) ) {
+            $temp = explode('/', ltrim($matches['path'],'/'));
+            $this->database = $temp[0];
+            $this->table = isset($temp[1]) ? $temp[1] : null;
         }
-
-        if (false !== strpos($dsn, '?')) {
-            if (false === strpos($dsn, '/')) {
-                $dsn = str_replace('?', '/?', $dsn);
-            }
-        }
-
-        $temp = explode('/', $dsn);
-        $this->parseHosts($temp[0]);
-
-        if (isset($temp[1])) {
-            $params = $temp[1];
-            $temp = explode('?', $params);
-            $this->database = empty($temp[0]) ? null : $temp[0];
-            if (isset($temp[1])) {
-                $this->parseParameters($temp[1]);
+        
+        if ( !empty($matches['query']) ) {
+            parse_str($matches['query'], $this->parameters);
+            
+            foreach ($this->parameters as $key=>$value) {
+                if ($value === 'true') {
+                    $this->parameters[$key] = true;
+                    
+                } elseif ($value === 'false') {
+                    $this->parameters[$key] = false;
+                    
+                } elseif ($value === 'null' || $value == '') {
+                    $this->parameters[$key] = null;
+                }
             }
         }
+        
+        if ( !empty($matches['fragment']) ) {
+            $this->fragment = $matches['fragment'];
+        }
+
+        // Remove path, params, and fragment
+        $dsn = str_replace($matches[0], '', $dsn);
+        
+        $this->parseHosts($dsn);
     }
 
     private function parseHosts($hostString)
     {
-        preg_match_all('/(?P<host>[\w\-._]+)(?::(?P<port>\d+))?/mi', $hostString, $matches);
-
         $hosts = [];
+        $matches = [];
+        preg_match_all('/(?P<host>[^?#\/:@,;]+)(?::(?P<port>\d+))?/mi', $hostString, $matches);
+        
         foreach ($matches['host'] as $index => $match) {
-            $port = !empty($matches['port'][$index])
-                ? (int) $matches['port'][$index]
-                : null;
-            $hosts[] = ['host' => $match, 'port' => $port];
+            $hosts[] = [
+                'host'  => $match,
+                'port'  => !empty($matches['port'][$index]) ? (int) $matches['port'][$index] : null,
+            ];
         }
 
         $this->hosts = $hosts;
-    }
-
-    /**
-     * @param string $params
-     */
-    private function parseParameters($params)
-    {
-        $parameters = explode('&', $params);
-
-        foreach ($parameters as $parameter) {
-            $kv = explode('=', $parameter, 2);
-            $this->parameters[$kv[0]] = isset($kv[1]) ? $kv[1] : null;
-        }
     }
 }
