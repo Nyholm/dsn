@@ -1,14 +1,14 @@
 <?php
 
-namespace Nyholm;
+namespace MikeWeb;
 
 /**
  * Parse a DSN string to get its parts.
- *
+ * 
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ * @author Mike Web <mweb@mikeweb.ninja>
  */
-final class DSN
-{
+final class DSN {
     /**
      * @var string
      */
@@ -54,8 +54,7 @@ final class DSN
      *
      * @param string $dsn
      */
-    public function __construct($dsn)
-    {
+    public function __construct($dsn) {
         $this->dsn = $dsn;
         $this->parseDsn($dsn);
     }
@@ -63,98 +62,85 @@ final class DSN
     /**
      * @return string
      */
-    public function getDsn()
-    {
+    public function getDsn() {
         return $this->dsn;
     }
 
     /**
      * @return string
      */
-    public function getProtocol()
-    {
+    public function getProtocol() {
         return $this->protocol;
     }
 
     /**
      * @return string|null
      */
-    public function getDatabase()
-    {
+    public function getDatabase() {
         return $this->database;
     }
     
     /**
      * @return string|null
      */
-    public function getTable()
-    {
+    public function getTable() {
         return $this->table;
     }
     
     /**
      * @return string|null
      */
-    public function getFragment()
-    {
+    public function getFragment() {
         return $this->fragment;
     }
 
     /**
      * @return array
      */
-    public function getHosts()
-    {
+    public function getHosts() {
         return $this->hosts;
     }
 
     /**
      * @return null|string
      */
-    public function getFirstHost()
-    {
+    public function getFirstHost() {
         return $this->hosts[0]['host'];
     }
 
     /**
      * @return null|int
      */
-    public function getFirstPort()
-    {
+    public function getFirstPort() {
         return $this->hosts[0]['port'];
     }
 
     /**
      * @return array
      */
-    public function getAuthentication()
-    {
+    public function getAuthentication() {
         return $this->authentication;
     }
 
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->authentication['username'];
     }
 
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->authentication['password'];
     }
 
     /**
      * @return array
      */
-    public function getParameters()
-    {
+    public function getParameters() {
         return $this->parameters;
     }
 
     /**
      * @return bool
      */
-    public function isValid()
-    {
+    public function isValid() {
         if (null === $this->getProtocol()) {
             return false;
         }
@@ -169,8 +155,7 @@ final class DSN
     /**
      * @param string $dsn
      */
-    private function parseDsn($dsn)
-    {
+    private function parseDsn($dsn) {
         // Parse protocol and auth
         $matches = [];
         $regex = '/^(?P<_protocol>(?P<protocol>[\w\\\\]+):\/\/)(?P<_username>(?P<username>.*?)(?P<_password>:(?P<password>.*?))?@)?/i';
@@ -187,11 +172,6 @@ final class DSN
             'username'  => isset($matches['username']) ? $matches['username'] : null,
             'password'  => isset($matches['password']) ? $matches['password'] : null,
         ];
-        
-        
-        if (null === $this->getProtocol()) {
-            return;
-        }
 
         // Remove the protocol and auth
         $dsn = str_replace($matches[0], '', $dsn);
@@ -234,8 +214,7 @@ final class DSN
         $this->parseHosts($dsn);
     }
 
-    private function parseHosts($hostString)
-    {
+    private function parseHosts($hostString) {
         $hosts = [];
         $matches = [];
         preg_match_all('/(?P<host>[^?#\/:@,;]+)(?::(?P<port>\d+))?/mi', $hostString, $matches);

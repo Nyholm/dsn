@@ -1,18 +1,11 @@
 # DSN parser
 
-[![Latest Version](https://img.shields.io/github/release/Nyholm/dsn.svg?style=flat-square)](https://github.com/Nyholm/dsn/releases)
-[![Build Status](https://img.shields.io/travis/Nyholm/dsn.svg?style=flat-square)](https://travis-ci.org/Nyholm/dsn)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Nyholm/dsn.svg?style=flat-square)](https://scrutinizer-ci.com/g/Nyholm/dsn)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Nyholm/dsn.svg?style=flat-square)](https://scrutinizer-ci.com/g/Nyholm/dsn)
-[![Total Downloads](https://img.shields.io/packagist/dt/nyholm/dsn.svg?style=flat-square)](https://packagist.org/packages/nyholm/dsn)
-
-
 ## Install
 
 Via Composer
 
 ``` bash
-composer require nyholm/dsn
+composer require mikeweb85/dsn
 ```
 
 
@@ -21,7 +14,7 @@ composer require nyholm/dsn
 The DSN parser is super simple to use. See the following example: 
 
 ```php
-$dsn = new DSN('mysql://root:root_pass@127.0.0.1:3306/test_db');
+$dsn = new DSN('mysql://root:root_pass@127.0.0.1:3306/test_db/test_table');
 
 $dsn->isValid();      // true
 $dsn->getProtocol();  // 'mysql'
@@ -30,6 +23,7 @@ $dsn->getPassword();  // 'root_pass'
 $dsn->getFirstHost(); // '127.0.0.1'
 $dsn->getFirstPort(); // 3306
 $dsn->getDatabase();  // 'test_db'
+$dsn->getTable();  // 'test_table'
 ```
 
 ## Testing

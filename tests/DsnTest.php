@@ -1,14 +1,13 @@
 <?php
 
-namespace Nyholm\Dsn\Test;
+namespace MikeWeb\Dsn\Test;
 
-use Nyholm\DSN;
+use MikeWeb\DSN;
 use PHPUnit\Framework\TestCase;
 
-class DsnTest extends TestCase
-{
-    public function testMySql()
-    {
+class DsnTest extends TestCase {
+    
+    public function testMySql() {
         $inputString = 'mysql://root:root_pass@127.0.0.1:3306/test_db';
         $dsn = new DSN($inputString);
 
@@ -29,8 +28,7 @@ class DsnTest extends TestCase
         $this->assertEquals('root_pass', $auth['password']);
     }
 
-    public function testParameters()
-    {
+    public function testParameters() {
         $dsn = new DSN('mysql://127.0.0.1/test_db?foo=bar&baz=biz&aa');
 
         $this->assertTrue($dsn->isValid());
@@ -45,8 +43,7 @@ class DsnTest extends TestCase
         $this->assertNull($parameters['aa']);
     }
 
-    public function testParametersOnWithoutDatabase()
-    {
+    public function testParametersOnWithoutDatabase() {
         $dsn = new DSN('mysql://127.0.0.1?foo=bar');
         $this->assertTrue($dsn->isValid());
         $parameters = $dsn->getParameters();
@@ -54,8 +51,7 @@ class DsnTest extends TestCase
         $this->assertEquals('bar', $parameters['foo']);
     }
 
-    public function authenticationProvider()
-    {
+    public function authenticationProvider() {
         return [
             ['mysql://root:root_pass@127.0.0.1:3306/test_db', 'root', 'root_pass', 'username', 'password'],
             ['mysql://127.0.0.1:3306/test_db', null, null, 'username', 'password'],
@@ -65,8 +61,7 @@ class DsnTest extends TestCase
     /**
      * @dataProvider authenticationProvider
      */
-    public function testAuthentication($dsnString, $expectedUserName, $expectedPassword, $expectedAuthUserName, $expectedAuthPassword)
-    {
+    public function testAuthentication($dsnString, $expectedUserName, $expectedPassword, $expectedAuthUserName, $expectedAuthPassword) {
         $dsn = new DSN($dsnString);
         $this->assertTrue($dsn->isValid());
         $this->assertEquals($expectedUserName, $dsn->getUsername());
@@ -80,8 +75,7 @@ class DsnTest extends TestCase
         $this->assertEquals($expectedPassword, $auth['password']);
     }
 
-    public function testPartlyMissing()
-    {
+    public function testPartlyMissing() {
         $dsn = new DSN('mysql://127.0.0.1/test_db');
 
         $this->assertTrue($dsn->isValid());
@@ -93,8 +87,7 @@ class DsnTest extends TestCase
         $this->assertNull($dsn->getFirstPort());
     }
 
-    public function testMissingPassword()
-    {
+    public function testMissingPassword() {
         $dsn = new DSN('mysql://root@127.0.0.1:3306/test_db');
 
         $this->assertTrue($dsn->isValid());
@@ -105,8 +98,7 @@ class DsnTest extends TestCase
         $this->assertNull($dsn->getPassword());
     }
 
-    public function invalidDsnProvider()
-    {
+    public function invalidDsnProvider() {
         return [
             ['myql:127.0.0.1/test_db'],
             ['myql://'],
@@ -116,8 +108,7 @@ class DsnTest extends TestCase
     /**
      * @dataProvider invalidDsnProvider
      */
-    public function testInvalid($dsnString)
-    {
+    public function testInvalid($dsnString) {
         $dsn = new DSN($dsnString);
         $this->assertFalse($dsn->isValid());
     }
