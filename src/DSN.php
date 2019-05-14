@@ -163,7 +163,7 @@ final class DSN
         }
 
         // Remove the protocol
-        $dsn = str_replace($this->protocol.'://', '', $dsn);
+        $dsn = ltrim(str_replace($this->protocol, '', $dsn), ':/');
 
         // Parse and remove auth if they exist
         if (false === $pos = strrpos($dsn, '@')) {
@@ -190,8 +190,12 @@ final class DSN
             }
         }
 
-        $temp = explode('/', $dsn);
-        $this->parseHosts($temp[0]);
+        if ('sqlite' === $this->protocol) {
+            $this->hosts[] = ['host' => null, 'port' => null];
+        } else {
+            $temp = explode('/', $dsn);
+            $this->parseHosts($temp[0]);
+        }
 
         if (isset($temp[1])) {
             $params = $temp[1];
