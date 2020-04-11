@@ -174,10 +174,10 @@ final class DSN
 
             $auth = [];
             if (2 === count($temp)) {
-                $auth['username'] = $temp[0];
-                $auth['password'] = $temp[1];
+                $auth['username'] = rawurldecode($temp[0]);
+                $auth['password'] = rawurldecode($temp[1]);
             } else {
-                $auth['username'] = $temp[0];
+                $auth['username'] = rawurldecode($temp[0]);
                 $auth['password'] = null;
             }
 
@@ -196,7 +196,7 @@ final class DSN
         if (isset($temp[1])) {
             $params = $temp[1];
             $temp = explode('?', $params);
-            $this->database = empty($temp[0]) ? null : $temp[0];
+            $this->database = empty($temp[0]) ? null : rawurldecode($temp[0]);
             if (isset($temp[1])) {
                 $this->parseParameters($temp[1]);
             }

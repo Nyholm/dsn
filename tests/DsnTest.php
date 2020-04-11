@@ -58,6 +58,7 @@ class DsnTest extends TestCase
     {
         return [
             ['mysql://root:root_pass@127.0.0.1:3306/test_db', 'root', 'root_pass', 'username', 'password'],
+            ['mysql://root:aA%263yuA%3F123-2ABC@127.0.0.1:3306/test_db', 'root', 'aA&3yuA?123-2ABC', 'username', 'password'],
             ['mysql://127.0.0.1:3306/test_db', null, null, 'username', 'password'],
         ];
     }
