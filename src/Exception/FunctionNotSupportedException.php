@@ -11,6 +11,9 @@ namespace Nyholm\Dsn\Exception;
  */
 class FunctionNotSupportedException extends InvalidDsnException
 {
+    /**
+     * @var string
+     */
     private $function;
 
     public function __construct(string $dsn, string $function, ?string $message = null)
