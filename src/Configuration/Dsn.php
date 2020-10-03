@@ -39,6 +39,11 @@ class Dsn
         return $this->parameters;
     }
 
+    /**
+     * @param mixed|null $default
+     *
+     * @return mixed
+     */
     public function getParameter(string $key, $default = null)
     {
         return \array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;

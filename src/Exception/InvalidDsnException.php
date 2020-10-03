@@ -11,6 +11,9 @@ namespace Nyholm\Dsn\Exception;
  */
 class InvalidDsnException extends InvalidArgumentException
 {
+    /**
+     * @var string
+     */
     private $dsn;
 
     public function __construct(string $dsn, string $message)
