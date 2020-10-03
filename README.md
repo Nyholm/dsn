@@ -5,6 +5,9 @@
 [![SymfonyInsight](https://insight.symfony.com/projects/fe1a70b7-6ba9-424d-9217-53833e47b07f/mini.svg)](https://insight.symfony.com/projects/fe1a70b7-6ba9-424d-9217-53833e47b07f)
 [![Total Downloads](https://img.shields.io/packagist/dt/nyholm/dsn.svg?style=flat-square)](https://packagist.org/packages/nyholm/dsn)
 
+Parse DSN strings into value objects to make them easier to use, pass around and
+manipulate.
+
 ## Install
 
 Via Composer
@@ -13,8 +16,19 @@ Via Composer
 composer require nyholm/dsn
 ```
 
-## Usage
+## Quick usage
 
+```php
+use Nyholm\Dsn\DsnParser;
+
+$dsn = DsnParser::parse('http://127.0.0.1/foo/bar?key=value');
+echo get_class($dsn); // "Nyholm\Dsn\Configuration\Url"
+echo $dsn->getHost(); // "127.0.0.1"
+echo $dsn->getPath(); // "/foo/bar"
+echo $dsn->getPort(); // null
+```
+
+## The DSN string format
 A DSN is a string used to configure many services. A common DSN may look like a
 URL, other look like a file path.
 
@@ -24,9 +38,10 @@ mysql://user:password@127.0.0.1:3306/my_table
 memcached:///var/local/run/memcached.socket?weight=25
 ```
 
-Both types can have parameters, user, password.
+Both types can have parameters, user, password. The exact definition we are using
+is found [at the bottom of the page](#definition).
 
-## DSN Functions
+### DSN Functions
 
 A DSN may contain zero or more functions. The DSN parser supports a function syntax
 but not functionality itself. The function arguments must be separated with space
@@ -45,6 +60,8 @@ There are two methods for parsing; `DsnParser::parse()` and `DsnParser::parseFun
 The latter is for situations where DSN functions are supported.
 
 ```php
+use Nyholm\Dsn\DsnParser;
+
 $dsn = DsnParser::parse('scheme://127.0.0.1/foo/bar?key=value');
 echo get_class($dsn); // "Nyholm\Dsn\Configuration\Url"
 echo $dsn->getHost(); // "127.0.0.1"
@@ -55,6 +72,8 @@ echo $dsn->getPort(); // null
 If functions are supported (like in the Symfony Mailer component) we can use `DsnParser::parseFunc()`:
 
 ```php
+use Nyholm\Dsn\DsnParser;
+
 $func = DsnParser::parseFunc('failover(sendgrid://KEY@default smtp://127.0.0.1)');
 echo $func->getName(); // "failover"
 echo get_class($func->first()); // "Nyholm\Dsn\Configuration\Url"
@@ -63,10 +82,12 @@ echo $func->first()->getUser(); // "KEY"
 ```
 
 ```php
+use Nyholm\Dsn\DsnParser;
 
 $func = DsnParser::parseFunc('foo(udp://localhost failover:(tcp://localhost:61616,tcp://remotehost:61616)?initialReconnectDelay=100)?start=now');
 echo $func->getName(); // "foo"
 echo $func->getParameters()['start']; // "now"
+
 $args = $func->getArguments();
 echo get_class($args[0]); // "Nyholm\Dsn\Configuration\Url"
 echo $args[0]->getScheme(); // "udp"
@@ -83,6 +104,8 @@ The string `redis://127.0.0.1` will automatically be converted to `dsn(redis://1
 when using `DsnParser::parseFunc()`.
 
 ```php
+use Nyholm\Dsn\DsnParser;
+
 $func = DsnParser::parseFunc('smtp://127.0.0.1');
 echo $func->getName(); // "dsn"
 echo get_class($func->first()); // "Nyholm\Dsn\Configuration\Url"
@@ -100,6 +123,7 @@ echo $func->first()->getHost(); // "127.0.0.1"
 If you try to parse an invalid DSN string a `InvalidDsnException` will be thrown.
 
 ```php
+use Nyholm\Dsn\DsnParser;
 use Nyholm\Dsn\Exception\InvalidDsnException;
 
 try {
@@ -130,6 +154,8 @@ You may also replace parts of the DSN with the `with*` methods. A DSN is immutab
 and you will get a new object back.
 
 ```php
+use Nyholm\Dsn\DsnParser;
+
 $dsn = DsnParser::parse('scheme://127.0.0.1/foo/bar?key=value');
 
 echo $dsn->getHost(); // "127.0.0.1"
