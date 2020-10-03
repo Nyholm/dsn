@@ -19,7 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Nyholm\\": "src/"
+            "Nyholm\\Dsn\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Nyholm\\Dsn\\Test\\": "tests/"
         }
     },
     "extra": {
