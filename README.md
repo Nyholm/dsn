@@ -164,7 +164,7 @@ ocdb://?Driver=ODBC+Driver+13+for+SQL+Server&server=localhost&database=WideWorld
 
 ## Definition
 
-There is no official DSN RFC. Symfony has defined a DSN configuration string as
+There is no official DSN RFC. We have defined a DSN configuration string as
 using the following definition. The "URL looking" parts of a DSN is based from
 [RFC 3986](https://tools.ietf.org/html/rfc3986).
 
