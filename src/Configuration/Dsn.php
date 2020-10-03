@@ -34,6 +34,14 @@ class Dsn
         return $this->scheme;
     }
 
+    public function withScheme(?string $scheme): self
+    {
+        $new = clone $this;
+        $new->scheme = $scheme;
+
+        return $new;
+    }
+
     public function getParameters(): array
     {
         return $this->parameters;
@@ -47,6 +55,25 @@ class Dsn
     public function getParameter(string $key, $default = null)
     {
         return \array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function withParameter(string $key, $value): self
+    {
+        $new = clone $this;
+        $new->parameters[$key] = $value;
+
+        return $new;
+    }
+
+    public function withoutParameter(string $key): self
+    {
+        $new = clone $this;
+        unset($new->parameters[$key]);
+
+        return $new;
     }
 
     public function getHost(): ?string

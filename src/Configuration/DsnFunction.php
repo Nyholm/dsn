@@ -63,6 +63,25 @@ class DsnFunction
     }
 
     /**
+     * @param mixed $value
+     */
+    public function withParameter(string $key, $value): self
+    {
+        $new = clone $this;
+        $new->parameters[$key] = $value;
+
+        return $new;
+    }
+
+    public function withoutParameter(string $key): self
+    {
+        $new = clone $this;
+        unset($new->parameters[$key]);
+
+        return $new;
+    }
+
+    /**
      * @return DsnFunction|Dsn
      */
     public function first()

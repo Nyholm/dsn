@@ -41,7 +41,7 @@ roundrobin(dummy://a failover(dummy://b dummy://a) dummy://b)
 ## Parsing
 
 There are two methods for parsing; `DsnParser::parse()` and `DsnParser::parseFunc()`.
-The latter is for in situations where DSN functions are supported.
+The latter is for situations where DSN functions are supported.
 
 ```php
 $dsn = DsnParser::parse('scheme://127.0.0.1/foo/bar?key=value');
@@ -124,6 +124,19 @@ the DSN string.
 - `getPort()`
 - `getPath()`
 - `getParameters()`
+
+You may also replace parts of the DSN with the `with*` methods. A DSN is immutable
+and you will get a new object back.
+
+```php
+$dsn = DsnParser::parse('scheme://127.0.0.1/foo/bar?key=value');
+
+echo $dsn->getHost(); // "127.0.0.1"
+$new = $dsn->withHost('nyholm.tech');
+
+echo $dsn->getHost(); // "127.0.0.1"
+echo $new->getHost(); // "nyholm.tech"
+```
 
 ## Not supported
 

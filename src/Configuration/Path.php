@@ -38,6 +38,14 @@ class Path extends Dsn
         return $this->path;
     }
 
+    public function withPath(string $path): self
+    {
+        $new = clone $this;
+        $new->path = $path;
+
+        return $new;
+    }
+
     /**
      * @var string
      */

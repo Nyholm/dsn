@@ -47,14 +47,38 @@ class Url extends Dsn
         return $this->host;
     }
 
+    public function withHost(string $host): self
+    {
+        $new = clone $this;
+        $new->host = $host;
+
+        return $new;
+    }
+
     public function getPort(): ?int
     {
         return $this->port;
     }
 
+    public function withPort(?int $port): self
+    {
+        $new = clone $this;
+        $new->port = $port;
+
+        return $new;
+    }
+
     public function getPath(): ?string
     {
         return $this->path;
+    }
+
+    public function withPath(?string $path): self
+    {
+        $new = clone $this;
+        $new->path = $path;
+
+        return $new;
     }
 
     /**
