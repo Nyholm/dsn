@@ -7,10 +7,7 @@ namespace Nyholm\Dsn\Configuration;
 trait UserPasswordTrait
 {
     /**
-     * @var array{
-     *             user: string|null,
-     *             password: string|null,
-     *             }
+     * @var array{ user: string|null, password: string|null, }
      */
     private $authentication = ['user' => null, 'password' => null];
 
@@ -19,10 +16,14 @@ trait UserPasswordTrait
         return $this->authentication;
     }
 
+    /**
+     * @param array{ user?: string|null, password?: string|null, } $authentication
+     */
     private function setAuthentication(array $authentication): void
     {
         if (!empty($authentication)) {
-            $this->authentication = $authentication;
+            $this->authentication['user'] = $authentication['user']??null;
+            $this->authentication['password'] = $authentication['password']??null;
         }
     }
 
@@ -31,7 +32,10 @@ trait UserPasswordTrait
         return $this->authentication['user'] ?? null;
     }
 
-    public function withUser(?string $user): self
+    /**
+     * @return static
+     */
+    public function withUser(?string $user)
     {
         $new = clone $this;
         $new->authentication['user'] = $user;
@@ -44,7 +48,10 @@ trait UserPasswordTrait
         return $this->authentication['password'] ?? null;
     }
 
-    public function withPassword(?string $password): self
+    /**
+     * @return static
+     */
+    public function withPassword(?string $password)
     {
         $new = clone $this;
         $new->authentication['password'] = $password;

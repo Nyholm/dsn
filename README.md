@@ -163,7 +163,7 @@ jdbc:informix-sqli://<server>[:<port>]/<databaseName>:informixserver=<dbserverna
 
 ```
 
-We do not support DSN strings for OCDB connections like:
+We do not support DSN strings for ODBC connections like:
 
 ```
 Driver={ODBC Driver 13 for SQL Server};server=localhost;database=WideWorldImporters;trusted_connection=Yes;

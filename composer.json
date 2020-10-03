@@ -1,6 +1,6 @@
 {
     "name": "nyholm/dsn",
-    "description": "Parse your DSN",
+    "description": "Parse your DSN strings in a powerful and flexible way",
     "type": "library",
     "keywords": ["dsn", "parser", "dsn parser", "database"],
     "homepage": "http://tnyholm.se",

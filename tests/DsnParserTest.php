@@ -38,6 +38,8 @@ class DsnParserTest extends TestCase
         yield ['in-memory://', new Dsn('in-memory')];
         yield ['amqp://host/%2f/custom', new Url('amqp', 'host', null, '/%2f/custom')];
         yield ['mysql+unix://user:pass@/tmp/mysql.sock/dbname', new Path('mysql+unix', '/tmp/mysql.sock/dbname', [], ['user' => 'user', 'password' => 'pass'])];
+        yield ['file:///usr/var/dbname', new Path('file', '/usr/var/dbname')];
+        yield ['127.0.0.1:80', new Url(null, '127.0.0.1', 80)];
 
         yield ['amqp://localhost/%2f/messages?'.
             'queues[messages][arguments][x-dead-letter-exchange]=dead-exchange&'.

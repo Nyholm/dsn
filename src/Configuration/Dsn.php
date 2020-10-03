@@ -34,7 +34,10 @@ class Dsn
         return $this->scheme;
     }
 
-    public function withScheme(?string $scheme): self
+    /**
+     * @return static
+     */
+    public function withScheme(?string $scheme)
     {
         $new = clone $this;
         $new->scheme = $scheme;
@@ -59,8 +62,10 @@ class Dsn
 
     /**
      * @param mixed $value
+     *
+     * @return static
      */
-    public function withParameter(string $key, $value): self
+    public function withParameter(string $key, $value)
     {
         $new = clone $this;
         $new->parameters[$key] = $value;
@@ -68,7 +73,10 @@ class Dsn
         return $new;
     }
 
-    public function withoutParameter(string $key): self
+    /**
+     * @return static
+     */
+    public function withoutParameter(string $key)
     {
         $new = clone $this;
         unset($new->parameters[$key]);
@@ -106,6 +114,11 @@ class Dsn
      */
     public function __toString()
     {
-        return sprintf('%s://%s', $this->getScheme(), empty($this->parameters) ? '' : '?'.http_build_query($this->parameters));
+        $parameters = $this->getParameters();
+        $scheme = $this->getScheme();
+
+        return
+            (empty($scheme) ? '' : $scheme.'://').
+            (empty($parameters) ? '' : '?'.http_build_query($parameters));
     }
 }

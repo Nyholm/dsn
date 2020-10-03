@@ -57,6 +57,11 @@ class DsnFunction
         return $this->parameters;
     }
 
+    /**
+     * @param mixed|null $default
+     *
+     * @return mixed
+     */
     public function getParameter(string $key, $default = null)
     {
         return \array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
@@ -64,8 +69,10 @@ class DsnFunction
 
     /**
      * @param mixed $value
+     *
+     * @return static
      */
-    public function withParameter(string $key, $value): self
+    public function withParameter(string $key, $value)
     {
         $new = clone $this;
         $new->parameters[$key] = $value;
@@ -73,7 +80,10 @@ class DsnFunction
         return $new;
     }
 
-    public function withoutParameter(string $key): self
+    /**
+     * @return static
+     */
+    public function withoutParameter(string $key)
     {
         $new = clone $this;
         unset($new->parameters[$key]);
