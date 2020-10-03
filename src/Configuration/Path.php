@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nyholm\Dsn\Configuration;
 
+use Nyholm\Dsn\Exception\InvalidArgumentException;
+
 /**
  * A "path like" DSN string.
  *
@@ -21,6 +23,9 @@ class Path extends Dsn
      */
     private $path;
 
+    /**
+     * @param array{ user?: string|null, password?: string|null, } $authentication
+     */
     public function __construct(string $scheme, string $path, array $parameters = [], array $authentication = [])
     {
         $this->path = $path;
@@ -33,12 +38,27 @@ class Path extends Dsn
         return parent::getScheme();
     }
 
+    /**
+     * @return static
+     */
+    public function withScheme(?string $scheme)
+    {
+        if (null === $scheme || '' === $scheme) {
+            throw new InvalidArgumentException('A Path must have a schema');
+        }
+
+        return parent::withScheme($scheme);
+    }
+
     public function getPath(): string
     {
         return $this->path;
     }
 
-    public function withPath(string $path): self
+    /**
+     * @return static
+     */
+    public function withPath(string $path)
     {
         $new = clone $this;
         $new->path = $path;

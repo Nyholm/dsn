@@ -33,6 +33,9 @@ class Url extends Dsn
      */
     private $path;
 
+    /**
+     * @param array{ user?: string|null, password?: string|null, } $authentication
+     */
     public function __construct(?string $scheme, string $host, ?int $port = null, ?string $path = null, array $parameters = [], array $authentication = [])
     {
         $this->host = $host;
@@ -47,7 +50,10 @@ class Url extends Dsn
         return $this->host;
     }
 
-    public function withHost(string $host): self
+    /**
+     * @return static
+     */
+    public function withHost(string $host)
     {
         $new = clone $this;
         $new->host = $host;
@@ -60,7 +66,10 @@ class Url extends Dsn
         return $this->port;
     }
 
-    public function withPort(?int $port): self
+    /**
+     * @return static
+     */
+    public function withPort(?int $port)
     {
         $new = clone $this;
         $new->port = $port;
@@ -73,7 +82,10 @@ class Url extends Dsn
         return $this->path;
     }
 
-    public function withPath(?string $path): self
+    /**
+     * @return static
+     */
+    public function withPath(?string $path)
     {
         $new = clone $this;
         $new->path = $path;
