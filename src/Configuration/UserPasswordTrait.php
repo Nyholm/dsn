@@ -22,8 +22,8 @@ trait UserPasswordTrait
     private function setAuthentication(array $authentication): void
     {
         if (!empty($authentication)) {
-            $this->authentication['user'] = $authentication['user']??null;
-            $this->authentication['password'] = $authentication['password']??null;
+            $this->authentication['user'] = $authentication['user'] ?? null;
+            $this->authentication['password'] = $authentication['password'] ?? null;
         }
     }
 
