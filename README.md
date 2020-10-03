@@ -1,11 +1,7 @@
 # DSN parser
 
 [![Latest Version](https://img.shields.io/github/release/Nyholm/dsn.svg?style=flat-square)](https://github.com/Nyholm/dsn/releases)
-[![Build Status](https://img.shields.io/travis/Nyholm/dsn.svg?style=flat-square)](https://travis-ci.org/Nyholm/dsn)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/Nyholm/dsn.svg?style=flat-square)](https://scrutinizer-ci.com/g/Nyholm/dsn)
-[![Quality Score](https://img.shields.io/scrutinizer/g/Nyholm/dsn.svg?style=flat-square)](https://scrutinizer-ci.com/g/Nyholm/dsn)
 [![Total Downloads](https://img.shields.io/packagist/dt/nyholm/dsn.svg?style=flat-square)](https://packagist.org/packages/nyholm/dsn)
-
 
 ## Install
 
@@ -49,18 +45,18 @@ The latter is for in situations where DSN functions are supported.
 
 ```php
 $dsn = DsnParser::parse('scheme://127.0.0.1/foo/bar?key=value');
-echo get_class($dsn); // "Symfony\Component\Dsn\Configuration\Url"
+echo get_class($dsn); // "Nyholm\Dsn\Configuration\Url"
 echo $dsn->getHost(); // "127.0.0.1"
 echo $dsn->getPath(); // "/foo/bar"
 echo $dsn->getPort(); // null
 ```
 
-If functions are supported (like in the Mailer component) we can use `DsnParser::parseFunc()`:
+If functions are supported (like in the Symfony Mailer component) we can use `DsnParser::parseFunc()`:
 
 ```php
 $func = DsnParser::parseFunc('failover(sendgrid://KEY@default smtp://127.0.0.1)');
 echo $func->getName(); // "failover"
-echo get_class($func->first()); // "Symfony\Component\Dsn\Configuration\Url"
+echo get_class($func->first()); // "Nyholm\Dsn\Configuration\Url"
 echo $func->first()->getHost(); // "default"
 echo $func->first()->getUser(); // "KEY"
 ```
@@ -71,11 +67,11 @@ $func = DsnParser::parseFunc('foo(udp://localhost failover:(tcp://localhost:6161
 echo $func->getName(); // "foo"
 echo $func->getParameters()['start']; // "now"
 $args = $func->getArguments();
-echo get_class($args[0]); // "Symfony\Component\Dsn\Configuration\Url"
+echo get_class($args[0]); // "Nyholm\Dsn\Configuration\Url"
 echo $args[0]->getScheme(); // "udp"
 echo $args[0]->getHost(); // "localhost"
 
-echo get_class($args[1]); // "Symfony\Component\Dsn\Configuration\DsnFunction"
+echo get_class($args[1]); // "Nyholm\Dsn\Configuration\DsnFunction"
 ```
 
 When using `DsnParser::parseFunc()` on a string that does not contain any DSN functions,
@@ -88,14 +84,28 @@ when using `DsnParser::parseFunc()`.
 ```php
 $func = DsnParser::parseFunc('smtp://127.0.0.1');
 echo $func->getName(); // "dsn"
-echo get_class($func->first()); // "Symfony\Component\Dsn\Configuration\Url"
+echo get_class($func->first()); // "Nyholm\Dsn\Configuration\Url"
 echo $func->first()->getHost(); // "127.0.0.1"
 
 
 $func = DsnParser::parseFunc('dsn(smtp://127.0.0.1)');
 echo $func->getName(); // "dsn"
-echo get_class($func->first()); // "Symfony\Component\Dsn\Configuration\Url"
+echo get_class($func->first()); // "Nyholm\Dsn\Configuration\Url"
 echo $func->first()->getHost(); // "127.0.0.1"
+```
+
+### Parsing invalid DSN
+
+If you try to parse an invalid DSN string a `InvalidDsnException` will be thrown.
+
+```php
+use Nyholm\Dsn\Exception\InvalidDsnException;
+
+try {
+  DsnParser::parse('foobar');
+} catch (InvalidDsnException $e) {
+  echo $e->getMessage();
+}
 ```
 
 ## Consuming

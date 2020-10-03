@@ -7,7 +7,7 @@ declare(strict_types=1);
 namespace Nyholm\Dsn\Exception;
 
 /**
- * Base ExceptionInterface for the Dsn Component.
+ * Base Exception interface.
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
