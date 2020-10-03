@@ -2,7 +2,6 @@
 
 namespace Nyholm\Dsn\Test;
 
-use PHPUnit\Framework\TestCase;
 use Nyholm\Dsn\Configuration\Dsn;
 use Nyholm\Dsn\Configuration\DsnFunction;
 use Nyholm\Dsn\Configuration\Path;
@@ -10,6 +9,7 @@ use Nyholm\Dsn\Configuration\Url;
 use Nyholm\Dsn\DsnParser;
 use Nyholm\Dsn\Exception\FunctionsNotAllowedException;
 use Nyholm\Dsn\Exception\SyntaxException;
+use PHPUnit\Framework\TestCase;
 
 class DsnParserTest extends TestCase
 {
