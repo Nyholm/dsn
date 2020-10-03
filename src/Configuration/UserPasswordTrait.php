@@ -14,10 +14,7 @@ trait UserPasswordTrait
      */
     private $authentication = ['user' => null, 'password' => null];
 
-    /**
-     * @return array
-     */
-    public function getAuthentication()
+    public function getAuthentication(): array
     {
         return $this->authentication;
     }

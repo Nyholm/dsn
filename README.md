@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/github/release/Nyholm/dsn.svg?style=flat-square)](https://github.com/Nyholm/dsn/releases)
 [![Quality Score](https://img.shields.io/scrutinizer/g/Nyholm/dsn.svg?style=flat-square)](https://scrutinizer-ci.com/g/Nyholm/dsn)
-[![SymfonyInsight](https://insight.symfony.com/projects/fe1a70b7-6ba9-424d-9217-53833e47b07f/small.svg)](https://insight.symfony.com/projects/fe1a70b7-6ba9-424d-9217-53833e47b07f)
+[![SymfonyInsight](https://insight.symfony.com/projects/fe1a70b7-6ba9-424d-9217-53833e47b07f/mini.svg)](https://insight.symfony.com/projects/fe1a70b7-6ba9-424d-9217-53833e47b07f)
 [![Total Downloads](https://img.shields.io/packagist/dt/nyholm/dsn.svg?style=flat-square)](https://packagist.org/packages/nyholm/dsn)
 
 ## Install
@@ -12,7 +12,6 @@ Via Composer
 ``` bash
 composer require nyholm/dsn
 ```
-
 
 ## Usage
 
@@ -175,7 +174,6 @@ However, we do support "only parameters":
 ```
 ocdb://?Driver=ODBC+Driver+13+for+SQL+Server&server=localhost&database=WideWorldImporters&trusted_connection=Yes
 ```
-
 
 ## Definition
 
