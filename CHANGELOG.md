@@ -2,6 +2,13 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 2.0.0@beta2
+
+### Added
+
+* DsnParser::parseUrl(string $dsn): Url
+* DsnParser::parsePath(string $dsn): Path
+
 ## 2.0.0@beta1
 
 Version 2 comes with a new definition was a DSN really is. It supports functions

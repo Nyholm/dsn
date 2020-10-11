@@ -7,6 +7,7 @@ use Nyholm\Dsn\Configuration\DsnFunction;
 use Nyholm\Dsn\Configuration\Path;
 use Nyholm\Dsn\Configuration\Url;
 use Nyholm\Dsn\DsnParser;
+use Nyholm\Dsn\Exception\DsnTypeNotSupported;
 use Nyholm\Dsn\Exception\FunctionsNotAllowedException;
 use Nyholm\Dsn\Exception\SyntaxException;
 use PHPUnit\Framework\TestCase;
@@ -125,5 +126,29 @@ class DsnParserTest extends TestCase
     {
         $this->expectException(SyntaxException::class);
         DsnParser::parseFunc($dsn);
+    }
+
+    public function testParseUrl()
+    {
+        $dsn = DsnParser::parseUrl('amqp://localhost');
+        $this->assertInstanceOf(Url::class, $dsn);
+    }
+
+    public function testParseUrlInvalid()
+    {
+        $this->expectException(DsnTypeNotSupported::class);
+        DsnParser::parseUrl('redis:///var/run/redis/redis.sock');
+    }
+
+    public function testParsePath()
+    {
+        $dsn = DsnParser::parsePath('redis:///var/run/redis/redis.sock');
+        $this->assertInstanceOf(Path::class, $dsn);
+    }
+
+    public function testParsePathInvalid()
+    {
+        $this->expectException(DsnTypeNotSupported::class);
+        DsnParser::parsePath('amqp://localhost');
     }
 }

@@ -8,6 +8,7 @@ use Nyholm\Dsn\Configuration\Dsn;
 use Nyholm\Dsn\Configuration\DsnFunction;
 use Nyholm\Dsn\Configuration\Path;
 use Nyholm\Dsn\Configuration\Url;
+use Nyholm\Dsn\Exception\DsnTypeNotSupported;
 use Nyholm\Dsn\Exception\FunctionsNotAllowedException;
 use Nyholm\Dsn\Exception\SyntaxException;
 
@@ -72,6 +73,26 @@ class DsnParser
         return self::getDsn($dsn);
     }
 
+    public static function parseUrl(string $dsn): Url
+    {
+        $dsn = self::parse($dsn);
+        if (!$dsn instanceof Url) {
+            throw DsnTypeNotSupported::onlyUrl($dsn);
+        }
+
+        return $dsn;
+    }
+
+    public static function parsePath(string $dsn): Path
+    {
+        $dsn = self::parse($dsn);
+        if (!$dsn instanceof Path) {
+            throw DsnTypeNotSupported::onlyPath($dsn);
+        }
+
+        return $dsn;
+    }
+
     /**
      * @return DsnFunction|Dsn
      */
@@ -117,18 +138,18 @@ class DsnParser
         ];
 
         if ('?' === $matches[3][0]) {
-            $parts = self::parseUrl('http://localhost'.$matches[3], $dsn);
+            $parts = self::explodeUrl('http://localhost'.$matches[3], $dsn);
 
             return new Dsn($scheme, self::getQuery($parts));
         }
 
         if ('/' === $matches[3][0]) {
-            $parts = self::parseUrl($matches[3], $dsn);
+            $parts = self::explodeUrl($matches[3], $dsn);
 
             return new Path($scheme, $parts['path'], self::getQuery($parts), $authentication);
         }
 
-        $parts = self::parseUrl('http://'.$matches[3], $dsn);
+        $parts = self::explodeUrl('http://'.$matches[3], $dsn);
 
         return new Url($scheme, $parts['host'], $parts['port'] ?? null, $parts['path'] ?? null, self::getQuery($parts), $authentication);
     }
@@ -138,7 +159,7 @@ class DsnParser
      *
      * @throws SyntaxException
      */
-    private static function parseUrl(string $url, string $dsn): array
+    private static function explodeUrl(string $url, string $dsn): array
     {
         $url = parse_url($url);
         if (false === $url) {
