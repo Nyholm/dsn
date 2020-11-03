@@ -10,6 +10,7 @@ use Nyholm\Dsn\DsnParser;
 use Nyholm\Dsn\Exception\DsnTypeNotSupported;
 use Nyholm\Dsn\Exception\FunctionsNotAllowedException;
 use Nyholm\Dsn\Exception\SyntaxException;
+use Nyholm\Psr7\Uri;
 use PHPUnit\Framework\TestCase;
 
 class DsnParserTest extends TestCase
@@ -150,5 +151,17 @@ class DsnParserTest extends TestCase
     {
         $this->expectException(DsnTypeNotSupported::class);
         DsnParser::parsePath('amqp://localhost');
+    }
+
+    public function testUtf8Host()
+    {
+        $url = DsnParser::parseFunc('http://ουτοπία.δπθ.gr/');
+        $this->assertSame('ουτοπία.δπθ.gr', $url->first()->getHost());
+
+        $url = DsnParser::parseFunc('http://程式设计.com/');
+        $this->assertSame('程式设计.com', $url->first()->getHost());
+
+        $url = DsnParser::parseFunc('http://παράδειγμα.δοκιμή');
+        $this->assertSame('παράδειγμα.δοκιμή', $url->first()->getHost());
     }
 }
