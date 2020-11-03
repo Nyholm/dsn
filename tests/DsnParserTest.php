@@ -10,7 +10,6 @@ use Nyholm\Dsn\DsnParser;
 use Nyholm\Dsn\Exception\DsnTypeNotSupported;
 use Nyholm\Dsn\Exception\FunctionsNotAllowedException;
 use Nyholm\Dsn\Exception\SyntaxException;
-use Nyholm\Psr7\Uri;
 use PHPUnit\Framework\TestCase;
 
 class DsnParserTest extends TestCase
