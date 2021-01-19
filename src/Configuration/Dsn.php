@@ -2,6 +2,8 @@
 
 namespace Nyholm\Dsn\Configuration;
 
+use Nyholm\Dsn\Exception\MissingRequiredParameterException;
+
 /**
  * Base DSN object.
  *
@@ -58,6 +60,18 @@ class Dsn
     public function getParameter(string $key, $default = null)
     {
         return \array_key_exists($key, $this->parameters) ? $this->parameters[$key] : $default;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRequiredParameter(string $key)
+    {
+        if (!\array_key_exists($key, $this->parameters) || '' === trim($this->parameters[$key])) {
+            throw new MissingRequiredParameterException($key, $this->__toString());
+        }
+
+        return $this->parameters[$key];
     }
 
     /**
