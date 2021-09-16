@@ -34,6 +34,7 @@ class DsnParserTest extends TestCase
         yield ['failover(dummy://a, dummy://b)', new DsnFunction('failover', [new Url('dummy', 'a'), new Url('dummy', 'b')])];
         yield ['failover(dummy://a,dummy://b)', new DsnFunction('failover', [new Url('dummy', 'a'), new Url('dummy', 'b')])];
         yield ['roundrobin(dummy://a failover(dummy://b dummy://a) dummy://b)', new DsnFunction('roundrobin', [new Url('dummy', 'a'), new DsnFunction('failover', [new Url('dummy', 'b'), new Url('dummy', 'a')]), new Url('dummy', 'b')])];
+        yield ['roundrobin(dummy://a failover(dummy://b dummy://a)?retry=true dummy://b)', new DsnFunction('roundrobin', [new Url('dummy', 'a'), new DsnFunction('failover', [new Url('dummy', 'b'), new Url('dummy', 'a')], ['retry' => 'true']), new Url('dummy', 'b')])];
         yield ['null://', new Dsn('null')];
         yield ['sync://', new Dsn('sync')];
         yield ['in-memory://', new Dsn('in-memory')];
