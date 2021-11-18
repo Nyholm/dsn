@@ -2,6 +2,12 @@
 
 The change log describes what is "Added", "Removed", "Changed" or "Fixed" between each release.
 
+## 2.0.1
+
+### Fixed
+
+* Improve parsing of nested functions
+
 ## 2.0.0
 
 No changes since beta2.
