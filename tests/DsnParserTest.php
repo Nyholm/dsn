@@ -34,6 +34,8 @@ class DsnParserTest extends TestCase
         yield ['failover(dummy://a, dummy://b)', new DsnFunction('failover', [new Url('dummy', 'a'), new Url('dummy', 'b')])];
         yield ['failover(dummy://a,dummy://b)', new DsnFunction('failover', [new Url('dummy', 'a'), new Url('dummy', 'b')])];
         yield ['roundrobin(dummy://a failover(dummy://b dummy://a) dummy://b)', new DsnFunction('roundrobin', [new Url('dummy', 'a'), new DsnFunction('failover', [new Url('dummy', 'b'), new Url('dummy', 'a')]), new Url('dummy', 'b')])];
+        yield ['roundrobin(dummy://a failover(dummy://b dummy://a)?retry=true dummy://b)', new DsnFunction('roundrobin', [new Url('dummy', 'a'), new DsnFunction('failover', [new Url('dummy', 'b'), new Url('dummy', 'a')], ['retry' => 'true']), new Url('dummy', 'b')])];
+        yield ['roundrobin(failover(dummy://a dummy://b) failover(dummy://c dummy://d))', new DsnFunction('roundrobin', [new DsnFunction('failover', [new Url('dummy', 'a'), new Url('dummy', 'b')]), new DsnFunction('failover', [new Url('dummy', 'c'), new Url('dummy', 'd')])])];
         yield ['null://', new Dsn('null')];
         yield ['sync://', new Dsn('sync')];
         yield ['in-memory://', new Dsn('in-memory')];

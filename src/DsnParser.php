@@ -20,7 +20,7 @@ use Nyholm\Dsn\Exception\SyntaxException;
 class DsnParser
 {
     private const FUNCTION_REGEX = '#^([a-zA-Z0-9\+-]+):?\((.*)\)(?:\?(.*))?$#';
-    private const ARGUMENTS_REGEX = '#([^\s,]+\(.+\)(?:\?.*)?|[^\s,]+)#';
+    private const ARGUMENTS_REGEX = '#([^\s,]+\([^)]+\)(?:\?[^\s,]*)?|[^\s,]+)#';
     private const UNRESERVED = 'a-zA-Z0-9-\._~';
     private const SUB_DELIMS = '!\$&\'\(\}\*\+,;=';
 
