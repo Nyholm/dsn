@@ -94,7 +94,7 @@ class Url extends Dsn
     }
 
     /**
-     * @var string
+     * @return string
      */
     public function __toString()
     {
