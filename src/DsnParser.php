@@ -134,7 +134,7 @@ class DsnParser
 
         // Parse user info
         if (!preg_match(
-                '#^(?:(['.self::UNRESERVED.self::SUB_DELIMS.'%]+)?(?::([' . self::UNRESERVED . self::SUB_DELIMS.'%]*))?@)?([^\s@]+)$#',
+                '#^(?:(['.self::UNRESERVED.self::SUB_DELIMS.'%]+)?(?::(['.self::UNRESERVED.self::SUB_DELIMS.'%]*))?@)?([^\s@]+)$#',
                 $dsn, $matches)) {
             throw new SyntaxException($dsn, 'The provided DSN is not valid. Maybe you need to url-encode the user/password?');
         }
