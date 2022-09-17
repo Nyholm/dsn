@@ -44,9 +44,7 @@ class DsnParser
         }
 
         if (empty($arguments)) {
-            throw new SyntaxException($dsn, 'dsn' === $functionName
-                ? 'The DSN is empty'
-                : 'A function must have arguments, an empty string was provided.');
+            throw new SyntaxException($dsn, 'dsn' === $functionName ? 'The DSN is empty' : 'A function must have arguments, an empty string was provided.');
         }
 
         // explode arguments and respect function parentheses
@@ -119,11 +117,9 @@ class DsnParser
     {
         // Find the scheme if it exists and trim the double slash.
         if (!preg_match(
-                '#^(?:(?<alt>[' . self::UNRESERVED . self::SUB_DELIMS .
-                '%]+:[0-9]+(?:[/?].*)?)|(?<scheme>[a-zA-Z0-9\+-\.]+):(?://)?(?<dsn>.*))$#',
+                '#^(?:(?<alt>['.self::UNRESERVED.self::SUB_DELIMS.'%]+:[0-9]+(?:[/?].*)?)|(?<scheme>[a-zA-Z0-9\+-\.]+):(?://)?(?<dsn>.*))$#',
                 $dsn, $matches)) {
-            throw new SyntaxException($dsn,
-                'A DSN must contain a scheme [a-zA-Z0-9\+-\.]+ and a colon.');
+            throw new SyntaxException($dsn, 'A DSN must contain a scheme [a-zA-Z0-9\+-\.]+ and a colon.');
         }
         $scheme = null;
         $dsn = $matches['alt'];
@@ -138,12 +134,9 @@ class DsnParser
 
         // Parse user info
         if (!preg_match(
-                '#^(?:([' . self::UNRESERVED . self::SUB_DELIMS .
-                '%]+)?(?::([' . self::UNRESERVED . self::SUB_DELIMS .
-                '%]*))?@)?([^\s@]+)$#',
+                '#^(?:(['.self::UNRESERVED.self::SUB_DELIMS.'%]+)?(?::([' . self::UNRESERVED . self::SUB_DELIMS.'%]*))?@)?([^\s@]+)$#',
                 $dsn, $matches)) {
-            throw new SyntaxException($dsn,
-                'The provided DSN is not valid. Maybe you need to url-encode the user/password?');
+            throw new SyntaxException($dsn, 'The provided DSN is not valid. Maybe you need to url-encode the user/password?');
         }
 
         $authentication = [
