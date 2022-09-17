@@ -22,7 +22,7 @@ class DsnParser
     private const FUNCTION_REGEX = '#^([a-zA-Z0-9\+-]+):?\((.*)\)(?:\?(.*))?$#';
     private const ARGUMENTS_REGEX = '#([^\s,]+\([^)]+\)(?:\?[^\s,]*)?|[^\s,]+)#';
     private const UNRESERVED = 'a-zA-Z0-9-\._~';
-    private const SUB_DELIMS = '!\$&\'\(\}\*\+,;=';
+    private const SUB_DELIMS = '!\$&\'\(\)\*\+,;=';
 
     /**
      * Parse A DSN thay may contain functions. If no function is present in the
@@ -44,7 +44,9 @@ class DsnParser
         }
 
         if (empty($arguments)) {
-            throw new SyntaxException($dsn, 'dsn' === $functionName ? 'The DSN is empty' : 'A function must have arguments, an empty string was provided.');
+            throw new SyntaxException($dsn, 'dsn' === $functionName
+                ? 'The DSN is empty'
+                : 'A function must have arguments, an empty string was provided.');
         }
 
         // explode arguments and respect function parentheses
@@ -52,7 +54,10 @@ class DsnParser
             $arguments = $matches[1];
         }
 
-        return new DsnFunction($functionName, array_map(\Closure::fromCallable([self::class, 'parseArguments']), $arguments), $parameters);
+        return new DsnFunction(
+            $functionName,
+            array_map(\Closure::fromCallable([self::class, 'parseArguments']), $arguments),
+            $parameters);
     }
 
     /**
@@ -113,8 +118,12 @@ class DsnParser
     private static function getDsn(string $dsn): Dsn
     {
         // Find the scheme if it exists and trim the double slash.
-        if (!preg_match('#^(?:(?<alt>['.self::UNRESERVED.self::SUB_DELIMS.'%]+:[0-9]+(?:[/?].*)?)|(?<scheme>[a-zA-Z0-9\+-\.]+):(?://)?(?<dsn>.*))$#', $dsn, $matches)) {
-            throw new SyntaxException($dsn, 'A DSN must contain a scheme [a-zA-Z0-9\+-\.]+ and a colon.');
+        if (!preg_match(
+                '#^(?:(?<alt>[' . self::UNRESERVED . self::SUB_DELIMS .
+                '%]+:[0-9]+(?:[/?].*)?)|(?<scheme>[a-zA-Z0-9\+-\.]+):(?://)?(?<dsn>.*))$#',
+                $dsn, $matches)) {
+            throw new SyntaxException($dsn,
+                'A DSN must contain a scheme [a-zA-Z0-9\+-\.]+ and a colon.');
         }
         $scheme = null;
         $dsn = $matches['alt'];
@@ -128,8 +137,13 @@ class DsnParser
         }
 
         // Parse user info
-        if (!preg_match('#^(?:(['.self::UNRESERVED.self::SUB_DELIMS.'%]+)?(?::(['.self::UNRESERVED.self::SUB_DELIMS.'%]*))?@)?([^\s@]+)$#', $dsn, $matches)) {
-            throw new SyntaxException($dsn, 'The provided DSN is not valid. Maybe you need to url-encode the user/password?');
+        if (!preg_match(
+                '#^(?:([' . self::UNRESERVED . self::SUB_DELIMS .
+                '%]+)?(?::([' . self::UNRESERVED . self::SUB_DELIMS .
+                '%]*))?@)?([^\s@]+)$#',
+                $dsn, $matches)) {
+            throw new SyntaxException($dsn,
+                'The provided DSN is not valid. Maybe you need to url-encode the user/password?');
         }
 
         $authentication = [
@@ -146,12 +160,22 @@ class DsnParser
         if ('/' === $matches[3][0]) {
             $parts = self::explodeUrl($matches[3], $dsn);
 
-            return new Path($scheme, $parts['path'], self::getQuery($parts), $authentication);
+            return new Path(
+                $scheme,
+                $parts['path'],
+                self::getQuery($parts),
+                $authentication);
         }
 
         $parts = self::explodeUrl('http://'.$matches[3], $dsn);
 
-        return new Url($scheme, $parts['host'], $parts['port'] ?? null, $parts['path'] ?? null, self::getQuery($parts), $authentication);
+        return new Url(
+            $scheme,
+            $parts['host'],
+            $parts['port'] ?? null,
+            $parts['path'] ?? null,
+            self::getQuery($parts),
+            $authentication);
     }
 
     /**
