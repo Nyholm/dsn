@@ -232,22 +232,22 @@ userinfo:
 
 path:
   "Normal" URL path according to RFC3986 section 3.3.
-  REGEX: (/? | (/[a-zA-Z0-9-\._~%!\$&'\(\}\*\+,;=:@]+)+)
+  REGEX: (/? | (/[a-zA-Z0-9-\._~%!\$&'\(\)\*\+,;=:@]+)+)
 
 query:
   "Normal" URL query according to RFC3986 section 3.4.
-  REGEX: [a-zA-Z0-9-\._~%!\$&'\(\}\*\+,;=:@]+
+  REGEX: [a-zA-Z0-9-\._~%!\$&'\(\)\*\+,;=:@]+
 
 user:
   This value can be URL encoded.
-  REGEX: [a-zA-Z0-9-\._~%!\$&'\(\}\*\+,;=]+
+  REGEX: [a-zA-Z0-9-\._~%!\$&'\(\)\*\+,;=]+
 
 password:
   This value can be URL encoded.
-  REGEX: [a-zA-Z0-9-\._~%!\$&'\(\}\*\+,;=]+
+  REGEX: [a-zA-Z0-9-\._~%!\$&'\(\)\*\+,;=]+
 
 host:
-  REGEX: [a-zA-Z0-9-\._~%!\$&'\(\}\*\+,;=]+
+  REGEX: [a-zA-Z0-9-\._~%!\$&'\(\)\*\+,;=]+
 
 post:
   REGEX: [0-9]+
