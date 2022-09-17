@@ -1,31 +1,26 @@
 {
     "name": "nyholm/dsn",
-    "type": "library",
     "description": "Parse your DSN strings in a powerful and flexible way",
+    "license": "MIT",
+    "type": "library",
     "keywords": [
         "dsn",
         "parser",
         "dsn parser",
         "database"
     ],
-    "homepage": "http://tnyholm.se",
-    "license": "MIT",
     "authors": [
         {
             "name": "Tobias Nyholm",
             "email": "tobias.nyholm@gmail.com"
         }
     ],
+    "homepage": "http://tnyholm.se",
     "require": {
         "php": ">=7.1"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.1"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "2.0-dev"
-        }
     },
     "autoload": {
         "psr-4": {
@@ -35,6 +30,11 @@
     "autoload-dev": {
         "psr-4": {
             "Nyholm\\Dsn\\Test\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
         }
     }
 }
