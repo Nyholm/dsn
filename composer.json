@@ -1,7 +1,7 @@
 {
     "name": "nyholm/dsn",
     "type": "library",
-    "description": "Parse your DSN strings in a powerful and flexible way",
+    "description": "Parse your DSN (data source name) strings in a powerful and flexible way",
     "keywords": [
         "dsn",
         "parser",
